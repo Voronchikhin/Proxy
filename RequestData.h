@@ -6,8 +6,15 @@
 #define PROXY_REQUESTDATA_H
 
 
-class RequestData {
 
+#include <vector>
+
+struct RequestData {
+    std::string host;
+    std::string url;
+    void* handler;
+    std::vector<char> request;
+    std::string requestAsString;
 };
 
 

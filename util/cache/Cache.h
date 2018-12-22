@@ -41,8 +41,9 @@ public:
     V get(K key) {
         V result;
         rLock();
-        result = storage.at(key);
+        result = storage[key];
         unlock();
+        return result;
     };
 
 private:

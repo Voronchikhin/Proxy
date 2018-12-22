@@ -20,7 +20,7 @@ class Server : public Observer<RequestData> {
 public:
 
     void notifyOnSuccess( RequestData data );
-    void notifyOnError();
+    void eraseCache(std::string s);
 
     explicit Server(int port);
     void start();
@@ -31,7 +31,7 @@ private:
     const char *BIND_IP;
     const int MAX_COUNT_OF_PENDING_REQUESTS;
 
-    Cache<std::string, CacheEntry > cache;
+    Cache<std::string, CacheEntry* > cache;
 
     bool is_running;
 };

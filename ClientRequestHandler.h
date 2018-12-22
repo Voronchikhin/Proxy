@@ -6,30 +6,37 @@
 #define PROXY_CLIENTREQUESTHANDLER_H
 
 
-#include "RequestHandler.h"
+#include "RequestHandlerBase.h"
 #include "exception/ClientHandlerException.h"
+#include "util/logging/Logger.h"
+#include "util/cache/CacheEntry.h"
 #include <iostream>
 
-class ClientRequestHandler : public RequestHandler{
+class ClientRequestHandler : public RequestHandlerBase {
 public:
-    explicit ClientRequestHandler(Request request) : observer(NULL){
-        socketfd = request.getSocketFd();
-    }
+    explicit ClientRequestHandler(Request request);
 
-    virtual void processRequest(Request request) {
-        if( NULL == observer ){
-            throw ClientHandlerException();
-        }
-        observer->notifyOnSuccess(RequestData());
-    }
+    virtual void processRequest(Request request);
 
-    virtual void setObserver(Observer<RequestData> *observer) {
-        this->observer = observer;
-    }
+    virtual void setObserver(Observer<RequestData> *observer);
+
+    void setCacheEntry(CacheEntry* cacheEntry);
 
 private:
-    int socketfd;
+    Request request;
+    Logger logger;
+    RequestData requestData;
+
     Observer<RequestData>* observer;
+    bool isRead;
+    bool isRunning;
+    CacheEntry* cacheEntry;
+    std::string host;
+    std::string url;
+
+    void run();
+
+    const static size_t MAX_SIZE_OF_REQUEST = 2*1024;
 };
 
 

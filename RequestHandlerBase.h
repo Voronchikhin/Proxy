@@ -10,13 +10,13 @@
 #include "RequestData.h"
 #include "Request.h"
 
-class RequestHandler {
+class RequestHandlerBase {
 public:
     virtual void processRequest( Request request ) = 0;
     virtual void setObserver(Observer<RequestData> *observer ) = 0;
-    virtual ~RequestHandler(){}
+    virtual ~RequestHandlerBase(){}
 protected:
-    RequestHandler() {}
+    RequestHandlerBase() {}
 };
 
 
